@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SystemRoutineFinder.c">
+    <ClCompile Include="SystemRoutineFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

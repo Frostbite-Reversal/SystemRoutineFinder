@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SystemRoutineFinder.c" />
+    <ClCompile Include="SystemRoutineFinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h" />
