@@ -163,41 +163,27 @@ namespace kernel {
 		PFILE_OBJECT FileObject = { 0 };
 		UNICODE_STRING FullName = { 0 };
 		POBJECT_NAME_INFORMATION FileNameInfo = NULL;
-		// Initialize the system DLL
 		InitializeObjectAttributes(&ObjectAttributes, PathName, OBJ_CASE_INSENSITIVE | OBJ_KERNEL_HANDLE, NULL, NULL);
 		st = ZwOpenFile(&File, SYNCHRONIZE | FILE_READ_DATA, &ObjectAttributes, &IoStatus, FILE_SHARE_READ, 0);
 		ASSERT(NT_SUCCESS(st));
-
 		st = ObReferenceObjectByHandle(File, FILE_READ_ACCESS, *IoFileObjectType, KernelMode, (PVOID*)&FileObject, 0);
 		ASSERT(NT_SUCCESS(st));
-
 		st = GetObjectNtName(FileObject, &FullName);
 		ASSERT(NT_SUCCESS(st));
 		if (NULL == FullName.Buffer) {
 			Print(DPFLTR_DEFAULT_ID, DPFLTR_ERROR_LEVEL, "bad alloc");
-		}
-		else {
-			//KdPrint(("NT name:%wZ.\r\n", &FullName));
+		}else {
 			RtlCopyUnicodeString(NtPathName, &FullName);
-
 			st = IoQueryFileDosDeviceName(FileObject, &FileNameInfo);
 			ASSERT(NT_SUCCESS(st));
-
-			//KdPrint(("dos name:%wZ.\r\n", &FileNameInfo->Name));
 			RtlCopyUnicodeString(DosPathName, &FileNameInfo->Name);
-
 			ExFreePool(FileNameInfo);
 			ExFreePoolWithTag(FullName.Buffer, TAG);
 		}
-
 		ObDereferenceObject(FileObject);
 		ZwClose(File);
 	}
-	inline ULONG Rva2Offset(IN LPVOID Data, IN ULONG Rva)
-		/*
-		返回0表示失败，其他的是在文件中的偏移。
-		*/
-	{
+	inline ULONG Rva2Offset(IN LPVOID Data, IN ULONG Rva){
 		ULONG Offset = 0;//返回值。
 		IMAGE_FILE_HEADER* FileHeader = NULL;
 		IMAGE_SECTION_HEADER* SectionHeader = NULL;
