@@ -174,7 +174,7 @@ namespace kernel {
 		st = GetObjectNtName(FileObject, &FullName);
 		ASSERT(NT_SUCCESS(st));
 		if (NULL == FullName.Buffer) {
-			Print(DPFLTR_DEFAULT_ID, DPFLTR_ERROR_LEVEL, "…Í«Îƒ⁄¥Ê ß∞‹");
+			Print(DPFLTR_DEFAULT_ID, DPFLTR_ERROR_LEVEL, "bad alloc");
 		}
 		else {
 			//KdPrint(("NT name:%wZ.\r\n", &FullName));
